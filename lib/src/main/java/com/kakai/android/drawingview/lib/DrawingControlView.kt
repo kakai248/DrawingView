@@ -37,4 +37,8 @@ class DrawingControlView : LinearLayout {
     fun onClearClick(func: () -> Unit) {
         btnClear.setOnClickListener { func() }
     }
+
+    fun onColorClick(func: () -> Unit) {
+        btnColor.setOnClickListener { func() }
+    }
 }
