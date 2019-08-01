@@ -95,6 +95,17 @@ internal class DrawingController {
                     endY = y
                 )
             }
+            is DrawingMode.Triangle -> {
+                DrawingOp.Triangle(
+                    options = paint.drawingOptions.copy(
+                        mode = null
+                    ),
+                    startX = x,
+                    startY = y,
+                    endX = x,
+                    endY = y
+                )
+            }
         }
     }
 

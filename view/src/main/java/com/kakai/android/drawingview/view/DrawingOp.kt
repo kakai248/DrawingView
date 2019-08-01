@@ -58,6 +58,35 @@ sealed class DrawingOp(open val options: Options) {
         }
     }
 
+    data class Triangle(
+        override val options: Options,
+        val startX: Float,
+        val startY: Float,
+        var endX: Float,
+        var endY: Float
+    ) : DrawingOp(options) {
+        override fun update(oldX: Float, oldY: Float, newX: Float, newY: Float) {
+            endX = newX
+            endY = newY
+        }
+
+        override fun render(canvas: Canvas, paint: Paint) {
+            val v1x = startX + (endX - startX) / 2
+            val v1y = startY
+
+            val v2x = startX
+            val v2y = endY
+
+            val v3x = endX
+            val v3y = endY
+
+            val points = floatArrayOf(
+                v1x, v1y, v2x, v2y, v2x, v2y, v3x, v3y, v3x, v3y, v1x, v1y
+            )
+            canvas.drawLines(points, paint)
+        }
+    }
+
     data class Options(
         val mode: Xfermode?,
         @ColorInt val color: Int,

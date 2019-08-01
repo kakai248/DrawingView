@@ -73,6 +73,10 @@ class DrawingControlView : ConstraintLayout {
         btnOval.setOnClickListener {
             drawingView?.mode = DrawingMode.Oval
         }
+
+        btnTriangle.setOnClickListener {
+            drawingView?.mode = DrawingMode.Triangle
+        }
     }
 
     fun attach(drawingView: DrawingView) {
@@ -90,6 +94,7 @@ class DrawingControlView : ConstraintLayout {
         btnPath.isChecked = drawingMode is DrawingMode.Path
         btnRectangle.isChecked = drawingMode is DrawingMode.Rectangle
         btnOval.isChecked = drawingMode is DrawingMode.Oval
+        btnTriangle.isChecked = drawingMode is DrawingMode.Triangle
     }
 
     private fun onHistoryChanged(history: List<DrawingOp>) {

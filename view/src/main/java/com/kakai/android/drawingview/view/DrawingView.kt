@@ -1,5 +1,6 @@
 package com.kakai.android.drawingview.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
@@ -39,6 +40,7 @@ class DrawingView : View {
         controller.render(canvas)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
