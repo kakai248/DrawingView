@@ -58,9 +58,8 @@ internal class DrawingController {
                     options = paint.drawingOptions.copy(
                         mode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
                     ),
-                    path = Path().apply {
-                        moveTo(x, y)
-                    }
+                    startX = x,
+                    startY = y
                 )
             }
             is DrawingMode.Path -> {
@@ -68,9 +67,8 @@ internal class DrawingController {
                     options = paint.drawingOptions.copy(
                         mode = null
                     ),
-                    path = Path().apply {
-                        moveTo(x, y)
-                    }
+                    startX = x,
+                    startY = y
                 )
             }
             is DrawingMode.Rectangle -> {
@@ -79,9 +77,7 @@ internal class DrawingController {
                         mode = null
                     ),
                     startX = x,
-                    startY = y,
-                    endX = x,
-                    endY = y
+                    startY = y
                 )
             }
             is DrawingMode.Oval -> {
@@ -90,9 +86,7 @@ internal class DrawingController {
                         mode = null
                     ),
                     startX = x,
-                    startY = y,
-                    endX = x,
-                    endY = y
+                    startY = y
                 )
             }
             is DrawingMode.Triangle -> {
@@ -101,9 +95,7 @@ internal class DrawingController {
                         mode = null
                     ),
                     startX = x,
-                    startY = y,
-                    endX = x,
-                    endY = y
+                    startY = y
                 )
             }
         }

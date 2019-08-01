@@ -13,8 +13,14 @@ sealed class DrawingOp(open val options: Options) {
 
     data class Path(
         override val options: Options,
-        val path: AndroidPath
+        val startX: Float,
+        val startY: Float
     ) : DrawingOp(options) {
+
+        val path = AndroidPath().apply {
+            moveTo(startX, startY)
+        }
+
         override fun update(oldX: Float, oldY: Float, newX: Float, newY: Float) {
             path.quadTo(oldX, oldY, (newX + oldX) / 2, (newY + oldY) / 2)
         }
@@ -27,10 +33,14 @@ sealed class DrawingOp(open val options: Options) {
     data class Rectangle(
         override val options: Options,
         val startX: Float,
-        val startY: Float,
-        var endX: Float,
-        var endY: Float
+        val startY: Float
     ) : DrawingOp(options) {
+
+        var endX: Float = startX
+            private set
+        var endY: Float = startY
+            private set
+
         override fun update(oldX: Float, oldY: Float, newX: Float, newY: Float) {
             endX = newX
             endY = newY
@@ -44,10 +54,14 @@ sealed class DrawingOp(open val options: Options) {
     data class Oval(
         override val options: Options,
         val startX: Float,
-        val startY: Float,
-        var endX: Float,
-        var endY: Float
+        val startY: Float
     ) : DrawingOp(options) {
+
+        var endX: Float = startX
+            private set
+        var endY: Float = startY
+            private set
+
         override fun update(oldX: Float, oldY: Float, newX: Float, newY: Float) {
             endX = newX
             endY = newY
@@ -61,10 +75,14 @@ sealed class DrawingOp(open val options: Options) {
     data class Triangle(
         override val options: Options,
         val startX: Float,
-        val startY: Float,
-        var endX: Float,
-        var endY: Float
+        val startY: Float
     ) : DrawingOp(options) {
+
+        var endX: Float = startX
+            private set
+        var endY: Float = startY
+            private set
+
         override fun update(oldX: Float, oldY: Float, newX: Float, newY: Float) {
             endX = newX
             endY = newY
