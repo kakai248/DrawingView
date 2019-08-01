@@ -2,15 +2,15 @@ package com.kakai.android.drawingview.controls
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.kakai.android.drawingview.view.DrawingMode
+import com.kakai.android.drawingview.view.DrawingOp
 import com.kakai.android.drawingview.view.DrawingView
 import kotlinx.android.synthetic.main.view_drawing_control.view.*
 import top.defaults.colorpicker.ColorPickerPopup
 
-class DrawingControlView : LinearLayout {
+class DrawingControlView : ConstraintLayout {
 
     private var drawingView: DrawingView? = null
 
@@ -31,7 +31,6 @@ class DrawingControlView : LinearLayout {
     }
 
     private fun init() {
-        gravity = Gravity.CENTER
         View.inflate(context, R.layout.view_drawing_control, this)
 
         btnUndo.setOnClickListener {
@@ -81,12 +80,19 @@ class DrawingControlView : LinearLayout {
 
         onModeChanged(drawingView.mode)
         drawingView.setOnModeChangedListener(::onModeChanged)
+
+        onHistoryChanged(drawingView.history)
+        drawingView.setOnHistoryChangedListener(::onHistoryChanged)
     }
 
     private fun onModeChanged(drawingMode: DrawingMode) {
-        btnEraser.isSelected = drawingMode is DrawingMode.Eraser
-        btnPath.isSelected = drawingMode is DrawingMode.Path
-        btnRectangle.isSelected = drawingMode is DrawingMode.Rectangle
-        btnOval.isSelected = drawingMode is DrawingMode.Oval
+        btnEraser.isChecked = drawingMode is DrawingMode.Eraser
+        btnPath.isChecked = drawingMode is DrawingMode.Path
+        btnRectangle.isChecked = drawingMode is DrawingMode.Rectangle
+        btnOval.isChecked = drawingMode is DrawingMode.Oval
+    }
+
+    private fun onHistoryChanged(history: List<DrawingOp>) {
+        btnUndo.isEnabled = history.isNotEmpty()
     }
 }

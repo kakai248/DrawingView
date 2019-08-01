@@ -60,6 +60,7 @@ sealed class DrawingOp(open val options: Options) {
 
     data class Options(
         val mode: Xfermode?,
-        @ColorInt val color: Int
+        @ColorInt val color: Int,
+        val size: Float
     )
 }

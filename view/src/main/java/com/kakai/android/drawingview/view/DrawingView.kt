@@ -68,11 +68,32 @@ class DrawingView : View {
             controller.mode = value
         }
 
+    fun setOnColorChangedListener(func: (Int) -> Unit) {
+        controller.onColorChangedListener = func
+    }
+
     var color: Int
         get() = controller.color
         set(value) {
             controller.color = value
         }
+
+    fun setOnSizeChangedListener(func: (Float) -> Unit) {
+        controller.onSizeChangedListener = func
+    }
+
+    var size: Float
+        get() = controller.size
+        set(value) {
+            controller.size = value
+        }
+
+    fun setOnHistoryChangedListener(func: (List<DrawingOp>) -> Unit) {
+        controller.onHistoryChangedListener = func
+    }
+
+    val history: List<DrawingOp>
+        get() = controller.history
 
     fun undo() {
         if (controller.undo()) {

@@ -5,7 +5,7 @@ import java.util.*
 
 internal class DrawingController {
 
-    private val ops = mutableListOf<DrawingOp>()
+    private val ops = LinkedList<DrawingOp>()
 
     private var lastX: Float? = null
     private var lastY: Float? = null
@@ -23,7 +23,7 @@ internal class DrawingController {
         style = Paint.Style.STROKE
         strokeJoin = Paint.Join.ROUND
         strokeCap = Paint.Cap.ROUND
-        strokeWidth = 10f
+        strokeWidth = DEFAULT_SIZE
     }
 
     fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -44,7 +44,7 @@ internal class DrawingController {
             op.render(bitmapCanvas, paint)
         }
 
-        canvas.drawColor(0xFFAAAAAA.toInt())
+        canvas.drawColor(0xFFFFFF)
         canvas.drawBitmap(bitmap, 0f, 0f, bitmapPaint)
     }
 
@@ -103,6 +103,7 @@ internal class DrawingController {
         lastY = null
         currentOp?.let { ops.add(it) }
         currentOp = null
+        onHistoryChangedListener?.invoke(ops)
     }
 
     fun onTouchMove(x: Float, y: Float) {
@@ -125,15 +126,37 @@ internal class DrawingController {
             onModeChangedListener?.invoke(value)
         }
 
+    var onColorChangedListener: ((Int) -> Unit)? = null
+
     var color: Int
-        get() = paint.color
+        get() = paint.drawingOptions.color
         set(value) {
-            paint.color = value
+            paint.drawingOptions = paint.drawingOptions.copy(
+                color = value
+            )
+            onColorChangedListener?.invoke(value)
         }
+
+    var onSizeChangedListener: ((Float) -> Unit)? = null
+
+    var size: Float
+        get() = paint.drawingOptions.size
+        set(value) {
+            paint.drawingOptions = paint.drawingOptions.copy(
+                size = value
+            )
+            onSizeChangedListener?.invoke(value)
+        }
+
+    var onHistoryChangedListener: ((List<DrawingOp>) -> Unit)? = null
+
+    val history: List<DrawingOp>
+        get() = ops
 
     fun undo(): Boolean {
         return if (ops.isNotEmpty()) {
             ops.removeAt(ops.lastIndex)
+            onHistoryChangedListener?.invoke(ops)
             true
         } else false
     }
@@ -143,9 +166,11 @@ internal class DrawingController {
         lastX = null
         lastY = null
         currentOp = null
+        onHistoryChangedListener?.invoke(ops)
     }
 
     companion object {
         private const val DEFAULT_COLOR = Color.BLACK
+        private const val DEFAULT_SIZE = 10f
     }
 }

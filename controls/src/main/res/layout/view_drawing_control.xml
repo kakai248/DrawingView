@@ -1,50 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:gravity="center"
-    tools:parentTag="android.widget.LinearLayout">
+    android:theme="@style/Theme.MaterialComponents.Light"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <ImageButton
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        app:constraint_referenced_ids="btnUndo,btnClear,btnColor,toggleMode"
+        app:flow_horizontalGap="8dp"
+        app:flow_horizontalStyle="packed"
+        app:flow_maxElementsWrap="3"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnUndo"
+        style="@style/ControlsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_undo"/>
+        app:icon="@drawable/ic_undo"
+        app:layout_constraintEnd_toStartOf="@id/btnClear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnClear"
+        style="@style/ControlsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_clear"/>
+        app:icon="@drawable/ic_clear"
+        app:layout_constraintEnd_toStartOf="@id/btnColor"
+        app:layout_constraintStart_toEndOf="@id/btnUndo"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageButton
-        android:id="@+id/btnEraser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_eraser"/>
-
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnColor"
+        style="@style/ControlsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_color"/>
+        app:icon="@drawable/ic_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnClear"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageButton
-        android:id="@+id/btnPath"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_path"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnUndo"
+        app:singleSelection="true">
 
-    <ImageButton
-        android:id="@+id/btnRectangle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_rectangle"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEraser"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_eraser"/>
 
-    <ImageButton
-        android:id="@+id/btnOval"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_oval"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPath"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_path"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRectangle"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:theme="@style/ControlsButton"
+            app:icon="@drawable/ic_rectangle"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOval"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            app:icon="@drawable/ic_oval"/>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 </merge>
