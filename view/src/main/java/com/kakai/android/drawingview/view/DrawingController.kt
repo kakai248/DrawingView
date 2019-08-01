@@ -1,9 +1,7 @@
 package com.kakai.android.drawingview.view
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
+import java.util.*
 
 internal class DrawingController {
 
@@ -13,7 +11,12 @@ internal class DrawingController {
     private var lastY: Float? = null
     private var currentOp: DrawingOp? = null
 
+    private lateinit var bitmap: Bitmap
+    private lateinit var bitmapCanvas: Canvas
+    private val bitmapPaint = Paint(Paint.DITHER_FLAG)
+
     private val paint = Paint().apply {
+        xfermode = null
         isAntiAlias = true
         color = DEFAULT_COLOR
         isDither = true
@@ -23,19 +26,26 @@ internal class DrawingController {
         strokeWidth = 10f
     }
 
+    fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        bitmapCanvas = Canvas(bitmap)
+    }
+
     fun render(canvas: Canvas) {
-        // Save current paint options
-        val currentDrawingOptions = paint.drawingOptions
+        bitmapCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
 
         ops.forEach { op ->
             paint.drawingOptions = op.options
-            op.render(canvas, paint)
+            op.render(bitmapCanvas, paint)
         }
 
-        // Restore current paint options
-        paint.drawingOptions = currentDrawingOptions
+        currentOp?.let { op ->
+            paint.drawingOptions = op.options
+            op.render(bitmapCanvas, paint)
+        }
 
-        currentOp?.render(canvas, paint)
+        canvas.drawColor(0xFFAAAAAA.toInt())
+        canvas.drawBitmap(bitmap, 0f, 0f, bitmapPaint)
     }
 
     fun onTouchDown(x: Float, y: Float) {
@@ -43,9 +53,21 @@ internal class DrawingController {
         lastY = y
 
         currentOp = when (mode) {
+            is DrawingMode.Eraser -> {
+                DrawingOp.Path(
+                    options = paint.drawingOptions.copy(
+                        mode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                    ),
+                    path = Path().apply {
+                        moveTo(x, y)
+                    }
+                )
+            }
             is DrawingMode.Path -> {
                 DrawingOp.Path(
-                    options = paint.drawingOptions,
+                    options = paint.drawingOptions.copy(
+                        mode = null
+                    ),
                     path = Path().apply {
                         moveTo(x, y)
                     }
@@ -53,7 +75,9 @@ internal class DrawingController {
             }
             is DrawingMode.Rectangle -> {
                 DrawingOp.Rectangle(
-                    options = paint.drawingOptions,
+                    options = paint.drawingOptions.copy(
+                        mode = null
+                    ),
                     startX = x,
                     startY = y,
                     endX = x,
@@ -62,7 +86,9 @@ internal class DrawingController {
             }
             is DrawingMode.Oval -> {
                 DrawingOp.Oval(
-                    options = paint.drawingOptions,
+                    options = paint.drawingOptions.copy(
+                        mode = null
+                    ),
                     startX = x,
                     startY = y,
                     endX = x,

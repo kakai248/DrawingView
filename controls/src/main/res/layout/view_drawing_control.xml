@@ -18,6 +18,12 @@
         android:src="@drawable/ic_clear"/>
 
     <ImageButton
+        android:id="@+id/btnEraser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_eraser"/>
+
+    <ImageButton
         android:id="@+id/btnColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -42,6 +42,10 @@ class DrawingControlView : LinearLayout {
             drawingView?.reset()
         }
 
+        btnEraser.setOnClickListener {
+            drawingView?.mode = DrawingMode.Eraser
+        }
+
         btnColor.setOnClickListener {
             val drawingView = drawingView ?: return@setOnClickListener
 
@@ -80,6 +84,7 @@ class DrawingControlView : LinearLayout {
     }
 
     private fun onModeChanged(drawingMode: DrawingMode) {
+        btnEraser.isSelected = drawingMode is DrawingMode.Eraser
         btnPath.isSelected = drawingMode is DrawingMode.Path
         btnRectangle.isSelected = drawingMode is DrawingMode.Rectangle
         btnOval.isSelected = drawingMode is DrawingMode.Oval

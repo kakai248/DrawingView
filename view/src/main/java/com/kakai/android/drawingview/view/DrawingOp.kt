@@ -2,6 +2,7 @@ package com.kakai.android.drawingview.view
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Xfermode
 import androidx.annotation.ColorInt
 
 typealias AndroidPath = android.graphics.Path
@@ -58,6 +59,7 @@ sealed class DrawingOp(open val options: Options) {
     }
 
     data class Options(
+        val mode: Xfermode?,
         @ColorInt val color: Int
     )
 }
