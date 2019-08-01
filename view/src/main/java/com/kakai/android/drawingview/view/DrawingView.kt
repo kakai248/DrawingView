@@ -1,4 +1,4 @@
-package com.kakai.android.drawingview.lib
+package com.kakai.android.drawingview.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -52,6 +52,16 @@ class DrawingView : View {
 
         return true
     }
+
+    fun setOnModeChangedListener(func: (DrawingMode) -> Unit) {
+        controller.onModeChangedListener = func
+    }
+
+    var mode: DrawingMode
+        get() = controller.mode
+        set(value) {
+            controller.mode = value
+        }
 
     var color: Int
         get() = controller.color

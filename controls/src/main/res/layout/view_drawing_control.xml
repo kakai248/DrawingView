@@ -23,4 +23,22 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_color"/>
 
+    <ImageButton
+        android:id="@+id/btnPath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_path"/>
+
+    <ImageButton
+        android:id="@+id/btnRectangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_rectangle"/>
+
+    <ImageButton
+        android:id="@+id/btnOval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_oval"/>
+
 </merge>

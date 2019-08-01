@@ -1,3 +1,4 @@
-rootProject.name='SampleApp'
+rootProject.name='DrawingView'
 include ':app'
-include ':lib'
+include ':view'
+include ':controls'
